@@ -105,7 +105,11 @@ React はブラウザ上で動作するため、以下のような制約が存�
 ---
 
 API起動：
+フロントと同じパッケージJsonを使ってるせいで
+Package Jsonのtype="module"を消さないとうまくいかない
+care-match % NODE_ENV=local npx ts-node -r tsconfig-paths/register -P tsconfig.server.json src/backend/api/server.ts
+で、ここを消すと多分フロントのビルドに影響が出る。
 
-backend % npx tsc -p tsconfig.server.json
-backend % NODE_ENV=local node dist/api/server.js
+ npx tsc -p tsconfig.server.json
+(base) yoshimotokaito@yoshimotoisaoninnoMacBook-Air backend % NODE_ENV=local node dist/api/server.js
 
