@@ -1,38 +1,45 @@
+// src/domains/sharedDomains/infrastructure/outbox/OutboxEvent.ts
+
 export class OutboxEvent {
-    readonly id: string
+    readonly outboxEventId: string
     readonly aggregateId: string
+
     readonly eventName: string
     readonly eventType: string
     readonly routingKey: string
 
     readonly payload: Record<string, unknown>
+
     readonly occurredAt: Date
     readonly publishedAt?: Date | null
     readonly status: "PENDING" | "PUBLISHED" | "FAILED"
 
     readonly retryCount: number
-    readonly maxRetries: number
-    readonly retryInterval: number
+    readonly nextRetryAt: Date
 
     constructor(params: {
-        id: string
+        outboxEventId: string
         aggregateId: string
         eventName: string
         eventType: string
         routingKey: string
+
         payload: Record<string, unknown>
+
         occurredAt?: Date
         publishedAt?: Date | null
         status?: "PENDING" | "PUBLISHED" | "FAILED"
+
         retryCount?: number
-        maxRetries?: number
-        retryInterval?: number
+        nextRetryAt?: Date
     }) {
-        this.id = params.id
+        this.outboxEventId = params.outboxEventId
         this.aggregateId = params.aggregateId
+
         this.eventName = params.eventName
         this.eventType = params.eventType
         this.routingKey = params.routingKey
+
         this.payload = params.payload
 
         this.occurredAt = params.occurredAt ?? new Date()
@@ -40,7 +47,6 @@ export class OutboxEvent {
         this.status = params.status ?? "PENDING"
 
         this.retryCount = params.retryCount ?? 0
-        this.maxRetries = params.maxRetries ?? 3
-        this.retryInterval = params.retryInterval ?? 5000
+        this.nextRetryAt = params.nextRetryAt ?? new Date()
     }
 }

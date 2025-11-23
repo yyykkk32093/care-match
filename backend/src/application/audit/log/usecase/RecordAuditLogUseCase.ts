@@ -1,6 +1,5 @@
 // src/application/audit/log/usecase/RecordAuditLogUseCase.ts
 import { AuditLogRepositoryImpl } from '@/domains/audit/log/infrastructure/repository/AuditLogRepositoryImpl.js'
-import { UuidGenerator } from '@/domains/sharedDomains/infrastructure/id/UuidGenerator.js'
 import { AuditLogIntegrationEventDTO } from '../dto/AuditLogIntegrationEventDTO.js'
 
 import { AuthLoginFailedHandler } from '../handler/AuthLoginFailedHandler.js'
@@ -9,9 +8,7 @@ import { DefaultAuditIntegrationHandler } from '../handler/DefaultAuditIntegrati
 
 export class RecordAuditLogUseCase {
     private readonly repo = new AuditLogRepositoryImpl()
-    private readonly idGen = new UuidGenerator()
 
-    // eventType ごとの Handler マップ
     private readonly handlers = new Map<string, any>([
         ['auth.login.success', new AuthLoginSuccessHandler()],
         ['auth.login.failed', new AuthLoginFailedHandler()],
@@ -26,7 +23,7 @@ export class RecordAuditLogUseCase {
             this.handlers.get(event.eventType) ??
             new DefaultAuditIntegrationHandler()
 
-        const auditLog = handler.handle(event, this.idGen)
+        const auditLog = handler.handle(event)
 
         await this.repo.save(auditLog)
     }

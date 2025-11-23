@@ -9,7 +9,11 @@ class AuditLogIntegrationController {
         try {
             const event = req.body
 
-            // 🔹 最新方針に合わせて eventType をチェック
+            // 必須項目チェック
+            if (!event?.idempotencyKey) {
+                return res.status(400).json({ message: 'Missing idempotencyKey' })
+            }
+
             if (!event?.eventType) {
                 return res.status(400).json({ message: 'Missing eventType' })
             }
@@ -18,7 +22,6 @@ class AuditLogIntegrationController {
                 return res.status(400).json({ message: 'Missing payload' })
             }
 
-            // 🔹 UseCase にそのまま渡す（DTO変換はUseCase側が行う）
             await this.usecase.execute(event)
 
             return res.status(200).json({ status: 'ok' })

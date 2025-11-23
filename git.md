@@ -12,13 +12,13 @@
 
 # 🧭 1. feature ブランチでコミット & push
 
-現在のブランチが `feature/split-frontend-backend` の場合は以下を実行：
+現在のブランチが `main` の場合は以下を実行：
 
 ```sh
 git add . && \
 git commit -m "split frontend/backend update" && \
 git pull --rebase && \
-git push -u origin feature/split-frontend-backend
+git push -u origin main
 🔄 2. ブランチが違う場合（切り替え → コミット → push）
 sh
 コードをコピーする

@@ -1,25 +1,7 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-// generator client {
-//   provider = "prisma-client"
-//   output   = "../src/generated/prisma"
-// }
-
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-// }
-
-// Prismaで使うDBクライアント設定
 generator client {
   provider = "prisma-client-js"
 }
 
-// 接続先DB（.env.local の DATABASE_URL が参照される）
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -27,38 +9,40 @@ datasource db {
 
 // ---- OutboxEvent テーブル定義 ----
 
-
 model OutboxEvent {
-  id            String   @id
-  aggregateId   String
-  eventName     String
-  eventType     String
-  routingKey    String
-  payload       Json
-  occurredAt    DateTime
-  publishedAt   DateTime?
-  status        String   // PENDING | PUBLISHED | FAILED
+  id          String    @id
+  aggregateId String
+  eventName   String
+  eventType   String
+  routingKey  String
+  payload     Json
+  occurredAt  DateTime
+  publishedAt DateTime?
+  status      String    @default("PENDING")
 
-  retryCount    Int       @default(0)
-  maxRetries    Int       @default(5)
-  retryInterval Int       @default(5000) // ms
+  retryCount  Int      @default(0)
+  nextRetryAt DateTime @default(now())
 
-  @@index([status, occurredAt])
+  @@index([status, nextRetryAt])
 }
 
-enum OutboxStatus {
-  PENDING
-  PUBLISHED
-  FAILED
-}
+model OutboxRetryPolicy {
+  routingKey   String @id // Handler に対応する routingKey
+  maxRetries   Int    @default(5) // 最大リトライ回数
+  baseInterval Int    @default(3000) // 初期インターバル（ms）
+  maxInterval  Int    @default(60000) // インターバル上限（ms）
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
 model AuditLog {
-  id         String   @id @default(cuid())
-  eventType  String
-  userId     String
-  authMethod String
-  detail     String?
-  occurredAt DateTime
-  createdAt  DateTime @default(now())
+  id             String   @id
+  idempotencyKey String   @unique //  = OutBoxイベントのid String  @id
+  eventType      String
+  userId         String
+  authMethod     String
+  detail         String?
+  occurredAt     DateTime
+  createdAt      DateTime @default(now())
 }

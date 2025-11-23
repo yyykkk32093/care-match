@@ -1,8 +1,7 @@
 // src/domains/audit/log/domain/model/entity/AuditLog.ts
-import { IIdGenerator } from '@/domains/sharedDomains/domain/service/IIdGenerator.js'
-
 export class AuditLog {
-    readonly id: string
+    readonly auditLogId: string
+    readonly idempotencyKey: string
     readonly eventType: string
     readonly userId: string
     readonly authMethod: string
@@ -10,19 +9,18 @@ export class AuditLog {
     readonly occurredAt: Date
     readonly createdAt: Date
 
-    constructor(
-        idGen: IIdGenerator,
-        params: {
-            id?: string
-            eventType: string
-            userId: string
-            authMethod: string
-            detail?: string | null
-            occurredAt?: Date
-            createdAt?: Date
-        },
-    ) {
-        this.id = params.id ?? idGen.generate()
+    constructor(params: {
+        auditLogId?: string
+        idempotencyKey: string
+        eventType: string
+        userId: string
+        authMethod: string
+        detail?: string | null
+        occurredAt?: Date
+        createdAt?: Date
+    }) {
+        this.auditLogId = params.auditLogId ?? crypto.randomUUID()
+        this.idempotencyKey = params.idempotencyKey
         this.eventType = params.eventType
         this.userId = params.userId
         this.authMethod = params.authMethod

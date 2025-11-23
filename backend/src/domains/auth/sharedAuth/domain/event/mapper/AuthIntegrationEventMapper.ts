@@ -1,35 +1,70 @@
-// src/domains/auth/sharedAuth/domain/event/mapper/AuthIntegrationEventMapper.ts
+import { OutboxEvent } from '@/domains/sharedDomains/infrastructure/outbox/OutboxEvent.js'
+import crypto from 'crypto'
 import { UserLoggedInIntegrationEvent } from '../integration/UserLoggedInIntegrationEvent.js'
 import { UserLoginFailedIntegrationEvent } from '../integration/UserLoginFailedIntegrationEvent.js'
 
 export class AuthIntegrationEventMapper {
-    map(event: any) {
-        const occurredAt = new Date()
 
-        switch (event.eventName) {
-            case 'PasswordUserLoggedInEvent':
-                return new UserLoggedInIntegrationEvent({
-                    userId: event.userId,
-                    email: event.email,
-                    ipAddress: event.ipAddress,
-                    authMethod: event.authMethod,
-                    occurredAt,
-                    routingKey: 'audit.record-auth-log', // ← これ
+    map(domainEvent: any): OutboxEvent {
+
+        switch (domainEvent.eventName) {
+
+            case "PasswordUserLoggedInEvent": {
+                const integration = new UserLoggedInIntegrationEvent({
+                    aggregateId: domainEvent.userId,
+                    userId: domainEvent.userId,
+                    email: domainEvent.email,
+                    authMethod: domainEvent.authMethod,
+                    ipAddress: domainEvent.ipAddress,
                 })
 
-            case 'PasswordUserLoginFailedEvent':
-                return new UserLoginFailedIntegrationEvent({
-                    userId: event.userId,
-                    email: event.email,
-                    reason: event.reason,
-                    authMethod: event.authMethod,
-                    ipAddress: event.ipAddress,
-                    occurredAt,
-                    routingKey: 'audit.record-auth-log', // ← これ
+                return new OutboxEvent({
+                    outboxEventId: crypto.randomUUID(),
+                    aggregateId: integration.aggregateId,
+
+                    eventName: domainEvent.eventName,
+                    eventType: "auth.login.success",
+                    routingKey: "audit.log",
+
+                    payload: integration.payload,
+
+                    occurredAt: new Date(),
+
+                    // ★ retry 系はここでセットしない！
+                    retryCount: 0,
+                    nextRetryAt: new Date(), // とりあえず現時刻。worker が policy に基づいて更新する
                 })
+            }
+
+            case "PasswordUserLoginFailedEvent": {
+                const integration = new UserLoginFailedIntegrationEvent({
+                    aggregateId: domainEvent.userId,
+                    userId: domainEvent.userId,
+                    email: domainEvent.email,
+                    reason: domainEvent.reason,
+                    authMethod: domainEvent.authMethod,
+                    ipAddress: domainEvent.ipAddress,
+                })
+
+                return new OutboxEvent({
+                    outboxEventId: crypto.randomUUID(),
+                    aggregateId: integration.aggregateId,
+
+                    eventName: domainEvent.eventName,
+                    eventType: "auth.login.failed",
+                    routingKey: "audit.log",
+
+                    payload: integration.payload,
+
+                    occurredAt: new Date(),
+
+                    retryCount: 0,
+                    nextRetryAt: new Date(),
+                })
+            }
 
             default:
-                throw new Error(`Mapper does not support ${event.eventName}`)
+                throw new Error(`Unsupported domain event: ${domainEvent.eventName}`)
         }
     }
 }

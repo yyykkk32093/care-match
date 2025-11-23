@@ -1,30 +1,35 @@
-// UserLoginFailedIntegrationEvent.ts
-import { OutboxEvent } from '@/domains/sharedDomains/infrastructure/outbox/OutboxEvent.js'
+// src/domains/auth/sharedAuth/event/integration/UserLoginFailedIntegrationEvent.ts
 
-export class UserLoginFailedIntegrationEvent extends OutboxEvent {
-    constructor(params: {
+export class UserLoginFailedIntegrationEvent {
+    readonly aggregateId: string
+
+    readonly eventType = "auth.login.failed"
+    readonly routingKey = "audit.log"
+
+    readonly payload: {
         userId: string
         email?: string
         authMethod: string
         reason: string
         ipAddress?: string
-        occurredAt: Date
-        routingKey: string
+    }
+
+    constructor(params: {
+        aggregateId: string
+        userId: string
+        email?: string
+        authMethod: string
+        reason: string
+        ipAddress?: string
     }) {
-        super({
-            id: crypto.randomUUID(),
-            eventName: 'UserLoginFailedIntegrationEvent',
-            aggregateId: params.userId,
-            routingKey: params.routingKey,
-            payload: {
-                userId: params.userId,
-                email: params.email,
-                authMethod: params.authMethod,
-                reason: params.reason,
-                ipAddress: params.ipAddress,
-            },
-            occurredAt: params.occurredAt,
-            status: 'PENDING',
-        })
+        this.aggregateId = params.aggregateId
+
+        this.payload = {
+            userId: params.userId,
+            email: params.email,
+            authMethod: params.authMethod,
+            reason: params.reason,
+            ipAddress: params.ipAddress,
+        }
     }
 }

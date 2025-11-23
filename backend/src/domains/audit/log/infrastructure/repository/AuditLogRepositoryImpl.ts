@@ -5,16 +5,19 @@ import { IAuditLogRepository } from '../../domain/repository/IAuditLogRepository
 
 export class AuditLogRepositoryImpl implements IAuditLogRepository {
     async save(log: AuditLog): Promise<void> {
-        await prisma.auditLog.create({
-            data: {
-                id: log.id,
+        await prisma.auditLog.upsert({
+            where: { idempotencyKey: log.idempotencyKey },
+            update: {}, // 冪等性 → 更新しない
+            create: {
+                idempotencyKey: log.idempotencyKey,
+                id: log.auditLogId,
                 eventType: log.eventType,
                 userId: log.userId,
                 authMethod: log.authMethod,
                 detail: log.detail,
                 occurredAt: log.occurredAt,
                 createdAt: log.createdAt,
-            },
+            }
         })
     }
 
@@ -24,21 +27,17 @@ export class AuditLogRepositoryImpl implements IAuditLogRepository {
             orderBy: { occurredAt: 'desc' },
         })
 
-        // 既存IDを維持したままドメインエンティティに戻す
-        return rows.map(
-            (r) =>
-                new AuditLog(
-                    { generate: () => r.id }, // IIdGenerator っぽいものを即席で実装
-                    {
-                        id: r.id,
-                        eventType: r.eventType,
-                        userId: r.userId,
-                        authMethod: r.authMethod,
-                        detail: r.detail,
-                        occurredAt: r.occurredAt,
-                        createdAt: r.createdAt,
-                    },
-                ),
+        return rows.map(r =>
+            new AuditLog({
+                auditLogId: r.id,
+                idempotencyKey: r.idempotencyKey,
+                eventType: r.eventType,
+                userId: r.userId,
+                authMethod: r.authMethod,
+                detail: r.detail,
+                occurredAt: r.occurredAt,
+                createdAt: r.createdAt,
+            })
         )
     }
 }

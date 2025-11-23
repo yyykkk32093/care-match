@@ -1,7 +1,6 @@
-// src/domains/sharedDomains/infrastructure/integration/dispatcher/IntegrationDispatcher.ts
-import { OutboxEvent } from '../outbox/OutboxEvent.js'
-import { IntegrationHandler } from './IntegrationHandler.js'
-
+import { logger } from "@/sharedTech/logger/logger.js"
+import { OutboxEvent } from "../outbox/OutboxEvent.js"
+import { IntegrationHandler } from "./handler/IntegrationHandler.js"
 export class IntegrationDispatcher {
     private handlers = new Map<string, IntegrationHandler>()
 
@@ -13,10 +12,13 @@ export class IntegrationDispatcher {
         const handler = this.handlers.get(routingKey)
 
         if (!handler) {
-            console.warn(`[Dispatcher] No handler for routingKey=${routingKey}`)
+            logger.warn(
+                { eventId: event.outboxEventId, routingKey },
+                "No handler found for routingKey"
+            )
             return
         }
 
-        await handler.handle(event)
+        return handler.handle(event)
     }
 }
