@@ -16,7 +16,7 @@
 
 ```sh
 git add . && \
-git commit -m "split frontend/backend update" && \
+git commit -m "outbox周りリファクタ・リトライポリシーマスタ追加" && \
 git pull --rebase && \
 git push -u origin main
 🔄 2. ブランチが違う場合（切り替え → コミット → push）
