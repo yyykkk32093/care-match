@@ -1,6 +1,6 @@
 // test/e2e/FakeHttpClient.ts
-import { IHttpClient } from "@/sharedTech/http/IHttpClient.js";
-import { logger } from "@/sharedTech/logger/logger.js";
+import { IHttpClient } from "@/_sharedTech/http/IHttpClient.js";
+import { logger } from "@/_sharedTech/logger/logger.js";
 import request from "supertest";
 
 export class FakeHttpClient implements IHttpClient {

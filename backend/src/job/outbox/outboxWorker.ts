@@ -1,13 +1,13 @@
 // src/job/outbox/OutboxWorker.ts
 
-import { logger } from '@/sharedTech/logger/logger.js'
-import { computeEqualJitterDelay } from '@/sharedTech/util/retry.js'
-import { sleep } from '@/sharedTech/util/sleep.js'
+import { logger } from '@/_sharedTech/logger/logger.js'
+import { computeEqualJitterDelay } from '@/_sharedTech/util/retry.js'
+import { sleep } from '@/_sharedTech/util/sleep.js'
 
-import { IOutboxDeadLetterRepository } from '@/domains/sharedDomains/domain/integration/IOutboxDeadLetterRepository.js'
-import type { IOutboxRepository } from '@/domains/sharedDomains/domain/integration/IOutboxRepository.js'
-import { IOutboxRetryPolicyRepository } from '@/domains/sharedDomains/domain/integration/IOutboxRetryPolicyRepository.js'
-import type { IntegrationDispatcher } from '@/domains/sharedDomains/infrastructure/integration/IntegrationDispatcher.js'
+import type { IntegrationDispatcher } from '@/integration/dispatcher/IntegrationDispatcher.js'
+import { IOutboxDeadLetterRepository } from '@/integration/outbox/repository/IOutboxDeadLetterRepository.js'
+import type { IOutboxRepository } from '@/integration/outbox/repository/IOutboxRepository.js'
+import { IOutboxRetryPolicyRepository } from '@/integration/outbox/repository/IOutboxRetryPolicyRepository.js'
 
 
 export class OutboxWorker {

@@ -1,7 +1,7 @@
-// backend/test/domains/sharedDomains/domain/event/DomainEventBus.test.ts
-import { BaseDomainEvent } from '@/domains/sharedDomains/domain/event/BaseDomainEvent.js'
-import { DomainEventBus } from '@/domains/sharedDomains/domain/event/DomainEventBus.js'
-import { DomainEventSubscriber } from '@/domains/sharedDomains/domain/event/DomainEventSubscriber.js'
+// backend/test/domains/_sharedDomains/domain/event/DomainEventBus.test.ts
+import { BaseDomainEvent } from '@/domains/_sharedDomains/domain/event/BaseDomainEvent.js'
+import { DomainEventBus } from '@/domains/_sharedDomains/domain/event/DomainEventBus.js'
+import { DomainEventSubscriber } from '@/domains/_sharedDomains/domain/event/DomainEventSubscriber.js'
 import { describe, expect, it, vi } from 'vitest'
 
 /**

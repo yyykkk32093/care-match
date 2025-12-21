@@ -1,9 +1,10 @@
 // test/e2e/OutboxWorkerTestRegistrar.ts
 
-import type { IntegrationDispatcher } from '@/domains/sharedDomains/infrastructure/integration/IntegrationDispatcher.js';
-import { OutboxDeadLetterRepository } from '@/domains/sharedDomains/infrastructure/outbox/OutboxDeadLetterRepository.js';
-import { OutboxRepository } from '@/domains/sharedDomains/infrastructure/outbox/OutboxRepository.js';
-import { OutboxRetryPolicyRepository } from '@/domains/sharedDomains/infrastructure/outbox/OutboxRetryPolicyRepository.js';
+
+import { IntegrationDispatcher } from '@/integration/dispatcher/IntegrationDispatcher.js';
+import { OutboxDeadLetterRepository } from '@/integration/outbox/repository/OutboxDeadLetterRepository.js';
+import { OutboxRepository } from '@/integration/outbox/repository/OutboxRepository.js';
+import { OutboxRetryPolicyRepository } from '@/integration/outbox/repository/OutboxRetryPolicyRepository.js';
 import { OutboxWorker } from '@/job/outbox/outboxWorker.js';
 
 export class OutboxWorkerTestRegistrar {

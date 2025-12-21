@@ -1,5 +1,5 @@
+import { UuidGenerator } from '@/domains/_sharedDomains/infrastructure/id/UuidGenerator.js'
 import { AuditLog } from '@/domains/audit/log/domain/model/entity/AuditLog.js'
-import { UuidGenerator } from '@/domains/sharedDomains/infrastructure/id/UuidGenerator.js'
 import { AuditLogIntegrationEventDTO } from '../dto/AuditLogIntegrationEventDTO.js'
 
 /**

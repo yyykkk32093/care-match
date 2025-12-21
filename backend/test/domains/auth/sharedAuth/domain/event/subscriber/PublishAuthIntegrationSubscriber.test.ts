@@ -1,6 +1,6 @@
+import { IOutboxRepository } from '@/domains/_sharedDomains/domain/integration/IOutboxRepository.js'
 import { AuthDomainEvent } from '@/domains/auth/sharedAuth/domain/event/AuthDomainEvent.js'
 import { PublishAuthIntegrationSubscriber } from '@/domains/auth/sharedAuth/domain/event/integration/PublishAuthIntegrationSubscriber.js'
-import { IOutboxRepository } from '@/domains/sharedDomains/domain/integration/IOutboxRepository.js'
 import { describe, expect, it, vi } from 'vitest'
 
 // ---- ダミーイベント（テスト用のFake） ----

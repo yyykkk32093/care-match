@@ -1,6 +1,6 @@
 // src/api/integration/audit/logs/controllers/auditLogIntegrationController.ts
+import { logger } from '@/_sharedTech/logger/logger.js';
 import { RecordAuditLogUseCase } from '@/application/audit/log/usecase/RecordAuditLogUseCase.js';
-import { logger } from '@/sharedTech/logger/logger.js';
 import type { Request, Response } from 'express';
 
 class AuditLogIntegrationController {

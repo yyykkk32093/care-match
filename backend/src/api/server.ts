@@ -1,6 +1,6 @@
 // src/server.ts
 
-import { DomainEventRegistrar } from '@/bootstrap/eventSubscribersRegistrar.js';
+import { ApplicationEventBootstrap } from '@/_bootstrap/ApplicationEventBootstrap.js';
 import cors from 'cors';
 import dotenvFlow from 'dotenv-flow';
 import express from 'express';
@@ -9,7 +9,6 @@ import path, { dirname } from 'path';
 import { loadConfig, register } from 'tsconfig-paths';
 import { fileURLToPath, pathToFileURL } from 'url';
 import util from 'util';
-
 // ============================================================
 // 🧭 ESM用 __dirname
 // ============================================================
@@ -102,8 +101,9 @@ try {
 
     // ============================================================
     // 🔔  EventSubscriber 登録
-    // ============================================================
-    DomainEventRegistrar.registerAll();
+    // ===========================================================
+    ApplicationEventBootstrap.bootstrap()
+
 
     app.get('/health', (_req, res) => {
         res.status(200).json({ status: 'ok', env: process.env.NODE_ENV });

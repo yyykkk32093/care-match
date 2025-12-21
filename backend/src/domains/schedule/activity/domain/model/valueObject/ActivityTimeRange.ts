@@ -1,5 +1,5 @@
 // domains/schedule/activity/domain/model/valueObject/ActivityTimeRange.ts
-import { ValueObject } from '@/domains/sharedDomains/model/valueObject/ValueObject.js'
+import { ValueObject } from '@/domains/_sharedDomains/model/valueObject/ValueObject.js'
 
 export class ActivityTimeRange extends ValueObject<{ startAt: Date, endAt: Date }> {
 

@@ -1,7 +1,7 @@
 // test/e2e/auth_to_audit.test.ts
 
+import { prisma } from "@/_sharedTech/db/client.js";
 import type { OutboxWorker } from "@/job/outbox/outboxWorker.js";
-import { prisma } from "@/sharedTech/db/client.js";
 import request from "supertest";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { TestFailHandler } from "./handlers/TestFailHandler.js";

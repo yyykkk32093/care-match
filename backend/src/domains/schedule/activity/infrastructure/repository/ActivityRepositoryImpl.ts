@@ -1,8 +1,8 @@
-import { prisma } from "@/sharedTech/db/client.js";
+import { prisma } from "@/_sharedTech/db/client.js";
 import { Activity } from "../../domain/model/entity/Activity.js";
 import { IActivityRepository } from "../../domain/repository/IActivityRepository.js";
 
-import { UserId } from "@/domains/sharedDomains/model/valueObject/UserId.js";
+import { UserId } from "@/domains/_sharedDomains/model/valueObject/UserId.js";
 import { ActivityDescription } from "../../domain/model/valueObject/ActivityDescription.js";
 import { ActivityId } from "../../domain/model/valueObject/ActivityId.js";
 import { ActivityLocation } from "../../domain/model/valueObject/ActivityLocation.js";
@@ -68,7 +68,7 @@ export class ActivityRepositoryImpl implements IActivityRepository {
             location: record.location
                 ? ActivityLocation.create(record.location)
                 : null,
-            createdBy: new UserId(record.createdBy),
+            createdBy: UserId.create(record.createdBy),
             status: record.status as ActivityStatus,
         });
     }
@@ -92,7 +92,7 @@ export class ActivityRepositoryImpl implements IActivityRepository {
                 location: record.location
                     ? ActivityLocation.create(record.location)
                     : null,
-                createdBy: new UserId(record.createdBy),
+                createdBy: UserId.create(record.createdBy),
                 status: record.status as ActivityStatus,
             })
         );

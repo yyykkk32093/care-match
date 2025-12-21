@@ -302,7 +302,7 @@ API サーバ来ようが関係なく動く
 
 ✔ outboxPublisher.ts の構成イメージ
 // src/workers/outboxPublisher.ts
-import { outboxRepository } from '@/domains/sharedDomains/infrastructure/outbox/OutboxRepository.js'
+import { outboxRepository } from '@/domains/_sharedDomains/infrastructure/outbox/OutboxRepository.js'
 import axios from 'axios'
 
 async function publishLoop() {
@@ -471,3 +471,39 @@ subscribe() は Bus が保持するリストにハンドラを登録すること
 subscribe() は起動時や registerArtifacts() で呼ぶ
 
 UseCase 実行中に subscribe() は絶対呼ばれない
+
+
+
+🧠 ここで重要
+発火位置は「イベントの種類」で決まる」
+
+イベントの種類は大きく2種類：
+
+✔ 種類1：ドメイン状態変化イベント（State Change Event）
+
+→ AggregateRoot が発火する
+
+例：
+
+UserNameChanged
+
+PasswordChanged
+
+ActivityCreated
+
+ActivityCancelled
+
+✔ 種類2：アプリケーション結果イベント（Application Outcome Event）
+
+→ UseCase（Application Service）が発火する
+（＝ログインはこっち！）
+
+例：
+
+UserLoggedIn
+
+UserLoginFailed
+
+PasswordSignInAttempted
+
+LoginAuditRequested

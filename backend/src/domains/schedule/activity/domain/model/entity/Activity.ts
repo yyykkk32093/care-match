@@ -1,9 +1,9 @@
 // domains/schedule/activity/domain/model/entity/Activity.ts
 
-import { AggregateRoot } from '@/domains/sharedDomains/model/entity/AggregateRoot.js'
+import { AggregateRoot } from '@/domains/_sharedDomains/model/entity/AggregateRoot.js'
 import { ActivityCreatedEvent } from '../../event/ActivityCreatedEvent.js'
 
-import { UserId } from '@/domains/sharedDomains/model/valueObject/UserId.js'
+import { UserId } from '@/domains/_sharedDomains/model/valueObject/UserId.js'
 import { ActivityCancelledEvent } from '../../event/ActivityCancelledEvent.js'
 import { ActivityDescription } from '../valueObject/ActivityDescription.js'
 import { ActivityId } from '../valueObject/ActivityId.js'

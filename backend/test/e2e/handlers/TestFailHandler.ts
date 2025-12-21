@@ -1,4 +1,4 @@
-import { IntegrationHandler } from "@/domains/sharedDomains/infrastructure/integration/handler/IntegrationHandler.js";
+import { IntegrationHandler } from "@/integration/dispatcher/handler/IntegrationHandler.js";
 
 export class TestFailHandler extends IntegrationHandler {
     async handle(): Promise<void> {

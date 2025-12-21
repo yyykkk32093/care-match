@@ -1,5 +1,5 @@
+import { logger } from '@/_sharedTech/logger/logger.js';
 import { usecaseFactory } from '@/api/_usecaseFactory.js';
-import { logger } from '@/sharedTech/logger/logger.js';
 import type { Request, Response } from 'express';
 
 export const passwordAuthController = {
@@ -10,7 +10,7 @@ export const passwordAuthController = {
     async login(req: Request, res: Response) {
         try {
             const { email, password } = req.body;
-            const useCase = usecaseFactory.createLoginPasswordUserUseCase()
+            const useCase = usecaseFactory.createSignInPasswordUserUseCase()
             const result = await useCase.execute({ email, password });
 
             res.status(200).json({

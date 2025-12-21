@@ -2,7 +2,7 @@
 
 import { ScheduleDomainEvent } from '@/domains/schedule/sharedSchedule/domain/event/ScheduleDomainEvent.js'
 
-import { UserId } from "@/domains/sharedDomains/model/valueObject/UserId.js"
+import { UserId } from "@/domains/_sharedDomains/model/valueObject/UserId.js"
 import { ActivityId } from "../model/valueObject/ActivityId.js"
 import { ActivityTimeRange } from "../model/valueObject/ActivityTimeRange.js"
 import { ActivityTitle } from "../model/valueObject/ActivityTitle.js"

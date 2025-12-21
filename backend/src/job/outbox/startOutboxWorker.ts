@@ -2,8 +2,8 @@
 import dotenv from 'dotenv-flow';
 dotenv.config({ node_env: process.env.NODE_ENV || 'local', path: 'env' })
 
-import { OutboxWorkerRegistrar } from '@/bootstrap/outboxWorkerRegistrar.js';
-import { logger } from '@/sharedTech/logger/logger.js';
+import { OutboxWorkerRegistrar } from '@/_bootstrap/outboxWorkerRegistrar.js';
+import { logger } from '@/_sharedTech/logger/logger.js';
 
 // const worker = new OutboxWorker()
 const worker = OutboxWorkerRegistrar.createWorker();

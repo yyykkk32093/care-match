@@ -1,5 +1,5 @@
 // domains/schedule/sharedSchedule/domain/event/ScheduleDomainEvent.ts
-import { BaseDomainEvent } from '@/domains/sharedDomains/domain/event/BaseDomainEvent.js'
+import { BaseDomainEvent } from '@/domains/_sharedDomains/domain/event/BaseDomainEvent.js'
 
 /**
  * Schedule ドメインに属する全イベントの抽象基底クラス。

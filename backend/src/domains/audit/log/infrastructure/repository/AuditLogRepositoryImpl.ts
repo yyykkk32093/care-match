@@ -1,5 +1,5 @@
 // src/domains/audit/log/infrastructure/repository/AuditLogRepositoryImpl.ts
-import { prisma } from '@/sharedTech/db/client.js'
+import { prisma } from '@/_sharedTech/db/client.js'
 import { AuditLog } from '../../domain/model/entity/AuditLog.js'
 import { IAuditLogRepository } from '../../domain/repository/IAuditLogRepository.js'
 

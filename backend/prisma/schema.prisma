@@ -80,3 +80,63 @@ model Activity {
   @@index([startAt])
   @@index([status])
 }
+
+model PasswordUser {
+  id             String   @id
+  email          String   @unique
+  hashedPassword String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model User {
+  id                  String  @id @default(uuid())
+  displayName         String?
+  role                String  @default("MEMBER")
+  email               String? @unique
+  phone               String?
+  avatarUrl           String?
+  biography           String?
+  notificationSetting Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  passwordCredential PasswordCredential?
+  googleCredential   GoogleCredential?
+  lineCredential     LineCredential?
+  appleCredential    AppleCredential?
+}
+
+model PasswordCredential {
+  userId         String   @id
+  hashedPassword String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model GoogleCredential {
+  userId    String   @unique
+  googleUid String   @unique
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model LineCredential {
+  userId    String   @unique
+  lineUid   String   @unique
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AppleCredential {
+  userId    String   @unique
+  appleUid  String   @unique
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

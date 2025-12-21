@@ -1,6 +1,6 @@
+import { DomainEventBus } from '@/domains/_sharedDomains/domain/event/DomainEventBus.js'
 import { PasswordUserLoggedInEvent } from '@/domains/auth/password/domain/event/PasswordUserLoggedInEvent.js'
 import { PasswordUserLoggedInSubscriber } from '@/domains/auth/password/domain/event/subscriber/PasswordUserLoggedInSubscriber.js'
-import { DomainEventBus } from '@/domains/sharedDomains/domain/event/DomainEventBus.js'
 import { describe, expect, it, vi } from 'vitest'
 
 describe('PasswordUserLoggedInSubscriber', () => {

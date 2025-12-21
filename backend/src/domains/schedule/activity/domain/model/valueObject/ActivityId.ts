@@ -1,5 +1,5 @@
 // src/domains/schedule/activity/domain/model/valueObject/ActivityId.ts
-import { ValueObject } from '@/domains/sharedDomains/model/valueObject/ValueObject.js'
+import { ValueObject } from '@/domains/_sharedDomains/model/valueObject/ValueObject.js'
 
 export class ActivityId extends ValueObject<string> {
     private constructor(value: string) {

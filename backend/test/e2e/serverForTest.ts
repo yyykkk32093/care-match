@@ -1,14 +1,14 @@
 // test/e2e/serverForTest.ts
+import { ApplicationEventBootstrap } from "@/_bootstrap/ApplicationEventBootstrap.js";
+import { logger } from "@/_sharedTech/logger/logger.js";
+import { IntegrationDispatcher } from "@/integration/dispatcher/IntegrationDispatcher.js";
 import cors from "cors";
 import express from "express";
 import fs from "fs/promises";
 import path from "path";
 import { loadConfig, register } from "tsconfig-paths";
 import { fileURLToPath, pathToFileURL } from "url";
-
-import { IntegrationDispatcher } from "@/domains/sharedDomains/infrastructure/integration/IntegrationDispatcher.js";
-import { logger } from "@/sharedTech/logger/logger.js";
-import { DomainEventTestRegistrar } from "./eventSubscribersRegistrarForTest.js";
+import { EventTestRegistrar } from "./eventSubscribersRegistrarForTest.js";
 
 logger.info("TEST LOGGER DIRECT CALL");
 const __filename = fileURLToPath(import.meta.url);
@@ -61,7 +61,11 @@ async function loadRoutes(dir: string) {
 await loadRoutes(apiRoot);
 
 /* 5. テスト用 DomainEvent + Integration の購読者登録 */
-DomainEventTestRegistrar.registerAll(app);
+// 🔔 Application Event 初期化（本番と同じ）
+ApplicationEventBootstrap.bootstrap()
+
+// テスト用 Subscriber / Integration 登録
+EventTestRegistrar.registerAll(app)
 
 /* 6. 本番の DomainEventRegistrar は絶対に呼ばない */
 export default app;
